@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Victor Lights | Motorcycle Auxiliary Lights Kenya</title>
+    <meta name="description" content="Premium motorcycle auxiliary lights in Kenya. LED driving lights, DRL, fog lights, and mounting kits.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* -- Palette: night-riding, not "dark mode default" --
+               ink   = asphalt-navy, not flat black
+               amber = actual DRL/hazard-light amber, not a generic accent
+               paper = cool off-white, alternates against ink sections   */
+            --ink: #12141a;
+            --ink-soft: #1b1e26;
+            --panel: #21242d;
+            --paper: #eef0f2;
+            --paper-panel: #ffffff;
+            --amber: #ffb627;
+            --amber-dim: #c98b1a;
+            --steel: #7a828e;
+            --steel-light: #a6adb6;
+            --line-dark: rgba(255, 255, 255, 0.09);
+            --line-light: rgba(18, 20, 26, 0.1);
+            --danger: #e4572e;
+            --success: #2fbf71;
+            --whatsapp: #25d366;
+
+            --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+            --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', Menlo, Consolas, monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.6;
+            color: var(--ink);
+            background: var(--paper);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img { max-width: 100%; height: auto; display: block; }
+        a { text-decoration: none; color: inherit; }
+
+        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+            outline: 2px solid var(--amber);
+            outline-offset: 2px;
+        }
+
+        .skip-link {
+            position: absolute; left: -9999px; top: 0; z-index: 2000;
+            background: var(--amber); color: var(--ink); padding: 0.75rem 1.25rem;
+            font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700;
+        }
+        .skip-link:focus { left: 1rem; top: 1rem; }
+
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.25rem; }
+
+        .eyebrow {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--amber-dim);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        section.on-ink .eyebrow { color: var(--amber); }
+
+        /* -- Road-line divider: the section signature, standing in for the
+           dashed centre line of a road instead of generic whitespace -- */
+        .road-divider {
+            height: 1px;
+            background-image: repeating-linear-gradient(
+                90deg, var(--amber) 0, var(--amber) 18px, transparent 18px, transparent 34px
+            );
+            opacity: 0.35;
+        }
+
+        /* -- Buttons -- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.85rem 1.75rem;
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-weight: 500;
+            font-size: 0.85rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+        }
+        .btn-primary { background: var(--amber); color: var(--ink); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(255, 182, 39, 0.32); }
+        .btn-ghost { background: transparent; color: var(--paper); border-color: rgba(255,255,255,0.25); }
+        .btn-ghost:hover { border-color: var(--amber); color: var(--amber); }
+        .btn-whatsapp { background: var(--whatsapp); color: #fff; }
+        .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(37, 211, 102, 0.3); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+
+        /* -- Header -- */
+        header {
+            background: rgba(18, 20, 26, 0.92);
+            backdrop-filter: blur(8px);
+            position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid var(--line-dark);
+        }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 0; }
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: var(--paper);
+        }
+        .logo span { color: var(--amber); }
+        .nav-links { display: none; list-style: none; gap: 2rem; }
+        .nav-links a {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--steel-light);
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--amber); }
+        .mobile-menu-btn { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--paper); }
+        .mobile-menu { display: none; background: var(--ink-soft); padding: 0.5rem 0 1rem; border-top: 1px solid var(--line-dark); }
+        .mobile-menu.active { display: block; }
+        .mobile-menu a {
+            display: block; padding: 0.75rem 1.25rem; font-family: var(--font-mono);
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em;
+            color: var(--steel-light); border-bottom: 1px solid var(--line-dark);
+        }
+
+        /* -- Hero -- */
+        .hero {
+            background: radial-gradient(ellipse 120% 80% at 30% -10%, #262b36 0%, var(--ink) 55%);
+            color: var(--paper);
+            padding: 5rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-beam {
+            position: absolute;
+            top: -20%; left: -10%;
+            width: 160%; height: 60%;
+            background: linear-gradient(100deg, transparent 40%, rgba(255, 182, 39, 0.10) 48%, rgba(255, 182, 39, 0.18) 50%, rgba(255, 182, 39, 0.10) 52%, transparent 60%);
+            transform: rotate(-8deg);
+            pointer-events: none;
+        }
+        @media (prefers-reduced-motion: no-preference) {
+            .hero-beam { animation: sweep 9s ease-in-out infinite; }
+        }
+        @keyframes sweep {
+            0%, 100% { transform: rotate(-8deg) translateX(0); }
+            50% { transform: rotate(-8deg) translateX(6%); }
+        }
+        .hero-inner { position: relative; z-index: 1; max-width: 640px; }
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: 2.6rem;
+            font-weight: 700;
+            line-height: 1.08;
+            letter-spacing: -0.01em;
+            margin-bottom: 1.1rem;
+        }
+        .hero h1 span { color: var(--amber); }
+        .hero p {
+            font-size: 1.05rem;
+            color: var(--steel-light);
+            margin-bottom: 2rem;
+            max-width: 480px;
+        }
+        .hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+
+        .readout-strip {
+            display: flex; flex-wrap: wrap; gap: 1.75rem;
+            padding-top: 1.75rem; border-top: 1px solid var(--line-dark);
+        }
+        .readout {
+            font-family: var(--font-mono); font-size: 0.78rem;
+            color: var(--steel-light); letter-spacing: 0.02em;
+        }
+        .readout strong { color: var(--amber); font-weight: 500; }
+
+        /* -- Section shell -- */
+        section { padding: 4rem 0; }
+        section.on-ink { background: var(--ink); color: var(--paper); }
+        section.on-paper { background: var(--paper); }
+        .section-head { margin-bottom: 2.25rem; max-width: 560px; }
+        .section-head h2 {
+            font-family: var(--font-display);
+            font-size: 1.85rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .section-head p { color: var(--steel); margin-top: 0.5rem; }
+        section.on-ink .section-head p { color: var(--steel-light); }
+
+        /* -- Product grid -- */
+        .product-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+
+        .product-card {
+            background: var(--panel);
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--line-dark);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            cursor: pointer;
+            color: var(--paper);
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 182, 39, 0.4);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 182, 39, 0.08);
+        }
+
+        .product-image {
+            height: 190px;
+            background: linear-gradient(160deg, #262b36 0%, var(--ink) 100%);
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+        }
+        .product-image img { width: 100%; height: 100%; object-fit: cover; }
+        .product-image .beam-glyph { width: 46px; height: 46px; color: var(--amber); opacity: 0.9; }
+
+        .product-stamp {
+            position: absolute; top: 0.85rem; left: 0.85rem;
+            border: 1.5px dashed var(--amber);
+            border-radius: 5px;
+            padding: 0.2rem 0.55rem;
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--amber);
+            transform: rotate(-4deg);
+            background: rgba(18, 20, 26, 0.55);
+            z-index: 2;
+        }
+
+        .product-info { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.65rem; flex: 1; }
+        .product-info h3 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; }
+        .product-info > p { color: var(--steel-light); font-size: 0.86rem; line-height: 1.55; }
+
+        .price-row { display: flex; align-items: baseline; gap: 0.6rem; margin-top: auto; }
+        .price-tag { font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem; color: var(--amber); }
+        .price-tag .ccy { font-size: 0.65rem; font-weight: 500; color: var(--steel-light); margin-right: 0.2rem; }
+        .price-compare { font-family: var(--font-mono); font-size: 0.78rem; color: var(--steel); text-decoration: line-through; }
+
+        .stock-readout { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.02em; color: var(--steel-light); }
+        .stock-readout.low { color: var(--danger); }
+        .stock-readout.out { color: var(--steel); }
+
+        .qty-row { display: flex; align-items: center; gap: 0.6rem; }
+        .qty-row button {
+            width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--line-dark);
+            background: transparent; color: var(--paper); font-size: 1rem; cursor: pointer;
+            font-family: var(--font-mono);
+        }
+        .qty-row button:hover { border-color: var(--amber); color: var(--amber); }
+        .qty-row input {
+            width: 44px; text-align: center; border: 1px solid var(--line-dark); border-radius: 6px;
+            padding: 0.4rem 0; background: transparent; color: var(--paper); font-family: var(--font-mono);
+        }
+
+        .add-to-order {
+            width: 100%;
+            background: var(--amber); color: var(--ink);
+            padding: 0.7rem; border-radius: 8px; border: none; cursor: pointer;
+            font-family: var(--font-mono); font-weight: 700; font-size: 0.8rem;
+            letter-spacing: 0.03em; text-transform: uppercase;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .add-to-order:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(255, 182, 39, 0.28); }
+        .add-to-order:disabled { background: var(--line-dark); color: var(--steel); cursor: not-allowed; }
+
+        /* -- Spec readout grid ("why us") -- */
+        .spec-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+        .spec-card {
+            border: 1px solid var(--line-dark);
+            border-radius: 12px;
+            padding: 1.35rem;
+            background: var(--ink-soft);
+        }
+        .spec-card .spec-value {
+            font-family: var(--font-mono); font-size: 1.5rem; font-weight: 500; color: var(--amber);
+            display: block; margin-bottom: 0.35rem;
+        }
+        .spec-card .spec-label {
+            font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em;
+            text-transform: uppercase; color: var(--steel-light);
+        }
+
+        /* -- CTA -- */
+        .cta { background: var(--ink-soft); color: var(--paper); text-align: left; }
+        .cta-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2rem; }
+        .cta h2 { font-family: var(--font-display); font-size: 1.9rem; font-weight: 700; margin-bottom: 0.6rem; max-width: 420px; }
+        .cta p { color: var(--steel-light); max-width: 420px; }
+        .stamp-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.25rem; }
+        .stamp-chip {
+            border: 1px dashed rgba(255,255,255,0.28);
+            border-radius: 6px; padding: 0.3rem 0.7rem;
+            font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em;
+            text-transform: uppercase; color: var(--steel-light);
+        }
+
+        /* -- Contact -- */
+        .contact-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+        .contact-card {
+            display: flex; align-items: flex-start; gap: 1rem;
+            padding: 1.35rem; background: var(--paper-panel); border-radius: 12px;
+            border: 1px solid var(--line-light);
+        }
+        .contact-card svg { width: 22px; height: 22px; color: var(--amber-dim); flex-shrink: 0; margin-top: 0.2rem; }
+        .contact-card h4 { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--steel); margin-bottom: 0.3rem; }
+        .contact-card p { font-size: 0.92rem; }
+
+        footer {
+            background: var(--ink); color: var(--steel-light);
+            text-align: center; padding: 2.5rem 0; font-size: 0.85rem;
+            border-top: 1px solid var(--line-dark);
+        }
+        footer .logo { margin-bottom: 0.75rem; display: inline-block; }
+        footer .fine-print { font-family: var(--font-mono); font-size: 0.72rem; margin-top: 0.5rem; color: var(--steel); }
+
+        /* -- Sticky basket bar -- */
+        .basket-bar {
+            position: fixed; left: 0; right: 0; bottom: 0;
+            background: var(--ink-soft); color: var(--paper);
+            padding: 0.9rem 1.25rem;
+            display: none; align-items: center; justify-content: space-between;
+            z-index: 1100;
+            border-top: 1px solid var(--line-dark);
+            box-shadow: 0 -8px 24px rgba(0,0,0,0.3);
+        }
+        .basket-bar.visible { display: flex; }
+        .basket-bar .basket-summary { font-family: var(--font-mono); font-size: 0.85rem; color: var(--steel-light); }
+        .basket-bar .basket-summary strong { color: var(--amber); }
+
+        /* -- Modals -- */
+        .modal-overlay {
+            display: none;
+            position: fixed; inset: 0; background: rgba(18, 20, 26, 0.72);
+            z-index: 1200; align-items: flex-end; justify-content: center;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: var(--paper-panel); width: 100%; max-width: 480px;
+            border-radius: 18px 18px 0 0; padding: 1.5rem; max-height: 85vh; overflow-y: auto;
+        }
+        @media (min-width: 600px) {
+            .modal-overlay { align-items: center; }
+            .modal { border-radius: 16px; }
+        }
+        .modal h3 { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 1rem; }
+        .modal-items { margin-bottom: 1rem; font-size: 0.9rem; }
+        .modal-items .line { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid var(--line-light); font-family: var(--font-mono); font-size: 0.85rem; }
+        .modal-total { display: flex; justify-content: space-between; font-family: var(--font-mono); font-weight: 700; padding-top: 0.6rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--steel); font-weight: 500; margin-bottom: 0.4rem; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 0.7rem; border: 1px solid var(--line-light); border-radius: 8px;
+            font-size: 0.95rem; font-family: var(--font-body);
+        }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--amber); }
+        .modal-actions { display: flex; gap: 0.75rem; margin-top: 1rem; }
+        .modal-actions .btn { flex: 1; text-align: center; }
+        .modal-close {
+            background: none; border: none; float: right; font-size: 1.2rem; cursor: pointer;
+            color: var(--steel); font-family: var(--font-mono);
+        }
+        .form-error { color: var(--danger); font-size: 0.85rem; margin-top: 0.5rem; display: none; font-family: var(--font-mono); }
+        .order-success { text-align: center; padding: 1rem 0; }
+        .order-success .order-number {
+            font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--amber-dim);
+            margin: 0.85rem 0; letter-spacing: 0.02em;
+        }
+
+        /* -- Product detail modal -- */
+        .detail-modal { max-width: 640px; }
+        .detail-hero {
+            width: 100%; height: 280px; border-radius: 12px; overflow: hidden;
+            background: linear-gradient(160deg, #262b36 0%, var(--ink) 100%);
+            display: flex; align-items: center; justify-content: center; margin-bottom: 0.75rem;
+        }
+        .detail-hero img { width: 100%; height: 100%; object-fit: cover; }
+        .detail-hero .beam-glyph { width: 56px; height: 56px; color: var(--amber); }
+        .detail-thumbs { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .detail-thumbs img {
+            width: 60px; height: 60px; object-fit: cover; border-radius: 8px; cursor: pointer;
+            border: 2px solid transparent; opacity: 0.7;
+        }
+        .detail-thumbs img.active { border-color: var(--amber); opacity: 1; }
+        .detail-title-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        .detail-title-row h3 { font-family: var(--font-display); font-size: 1.4rem; }
+        .detail-price { font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: var(--amber-dim); white-space: nowrap; }
+        .detail-price .compare { font-size: 0.8rem; color: var(--steel); font-weight: 400; text-decoration: line-through; margin-left: 0.5rem; }
+        .detail-stock { font-family: var(--font-mono); font-size: 0.78rem; color: var(--steel); margin: 0.4rem 0 1rem; }
+        .detail-stock.low { color: var(--danger); }
+        .detail-description { font-size: 0.9rem; color: var(--steel); margin-bottom: 0.75rem; }
+        .detail-copy { font-size: 0.92rem; line-height: 1.7; white-space: pre-line; margin-bottom: 1.25rem; }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @media (prefers-reduced-motion: no-preference) {
+            .animate { animation: fadeInUp 0.5s ease forwards; }
+        }
+
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+            .mobile-menu-btn { display: none; }
+            .hero h1 { font-size: 3.4rem; }
+            .product-grid { grid-template-columns: repeat(2, 1fr); }
+            .spec-grid { grid-template-columns: repeat(4, 1fr); }
+            .contact-grid { grid-template-columns: repeat(3, 1fr); }
+            section { padding: 5.5rem 0; }
+        }
+        @media (min-width: 1024px) {
+            .product-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">VICTOR<span>·LIGHTS</span></a>
+                <ul class="nav-links">
+                    <li><a href="#main">Home</a></li>
+                    <li><a href="#products">Catalog</a></li>
+                    <li><a href="#why">Why Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+            </nav>
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="#main" onclick="toggleMenu()">Home</a>
+                <a href="#products" onclick="toggleMenu()">Catalog</a>
+                <a href="#why" onclick="toggleMenu()">Why Us</a>
+                <a href="#contact" onclick="toggleMenu()">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main">
+    <section class="hero" id="home">
+        <div class="hero-beam" aria-hidden="true"></div>
+        <div class="container hero-inner">
+            <h1>See the road.<br><span>Be seen.</span></h1>
+            <p>LED auxiliary lighting tuned for Kenyan roads — night rides, river crossings, and everything in between.</p>
+            <div class="hero-actions">
+                <a href="#products" class="btn btn-primary">View Catalog</a>
+                <a href="#" id="heroWhatsapp" class="btn btn-whatsapp" target="_blank" rel="noopener">Order on WhatsApp</a>
+            </div>
+            <div class="readout-strip">
+                <div class="readout"><strong>IP68</strong> waterproof</div>
+                <div class="readout"><strong>60W</strong> max output</div>
+                <div class="readout"><strong>20–30min</strong> install</div>
+                <div class="readout"><strong>12mo</strong> warranty</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="road-divider"></div>
+
+    <section class="on-paper" id="products">
+        <div class="container">
+            <div class="section-head">
+                <span class="eyebrow">Catalog</span>
+                <h2>Choose your setup</h2>
+                <p>Tap a product for full specs and photos.</p>
+            </div>
+            <div class="product-grid" id="productGrid">
+                <p style="color:var(--steel);">Loading products…</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="road-divider"></div>
+
+    <section class="on-ink" id="why">
+        <div class="container">
+            <div class="section-head">
+                <span class="eyebrow">Why Victor</span>
+                <h2>Built for the ride</h2>
+            </div>
+            <div class="spec-grid">
+                <div class="spec-card">
+                    <span class="spec-value">IP68</span>
+                    <span class="spec-label">Waterproof rating</span>
+                </div>
+                <div class="spec-card">
+                    <span class="spec-value">20–30min</span>
+                    <span class="spec-label">Plug & play install</span>
+                </div>
+                <div class="spec-card">
+                    <span class="spec-value">12 months</span>
+                    <span class="spec-label">Replacement warranty</span>
+                </div>
+                <div class="spec-card">
+                    <span class="spec-value">Nationwide</span>
+                    <span class="spec-label">Courier delivery</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container cta-inner">
+            <div>
+                <h2>Ready to upgrade your ride?</h2>
+                <p>Get expert advice on the best lighting setup for your motorcycle. We deliver nationwide.</p>
+                <div class="stamp-row">
+                    <span class="stamp-chip">M-Pesa</span>
+                    <span class="stamp-chip">Cash on delivery</span>
+                    <span class="stamp-chip">Bank transfer</span>
+                </div>
+            </div>
+            <a href="#" id="ctaWhatsapp" class="btn btn-whatsapp" target="_blank" rel="noopener">Chat on WhatsApp</a>
+        </div>
+    </section>
+
+    <div class="road-divider"></div>
+
+    <section class="on-paper" id="contact">
+        <div class="container">
+            <div class="section-head">
+                <span class="eyebrow">Get in touch</span>
+                <h2>We're here to help you ride safer</h2>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                    <div><h4>Phone / WhatsApp</h4><p id="phoneDisplay">—</p></div>
+                </div>
+                <div class="contact-card">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <div><h4>Location</h4><p>Industrial Area, Nairobi<br>Kenya</p></div>
+                </div>
+                <div class="contact-card">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <div><h4>Email</h4><p>info@victorlights.co.ke<br>Orders & inquiries</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="logo">VICTOR<span style="color:var(--amber)">·LIGHTS</span></div>
+            <p>Premium Motorcycle Auxiliary Lights | Nairobi, Kenya</p>
+            <p class="fine-print">© 2026 Victor Lights. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="basket-bar" id="basketBar">
+        <div class="basket-summary"><span id="basketCount">0</span> item(s) — <strong id="basketTotal">KES 0</strong></div>
+        <button class="btn btn-primary" style="padding:0.6rem 1.2rem;" onclick="openOrderModal()">Checkout</button>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <button class="modal-close" onclick="closeOrderModal()">✕ Close</button>
+            <div id="modalBody">
+                <h3>Confirm your order</h3>
+                <div class="modal-items" id="modalItems"></div>
+                <div class="modal-total"><span>Total</span><span id="modalTotal">KES 0</span></div>
+                <form id="orderForm">
+                    <div class="form-group">
+                        <label for="customerName">Full name</label>
+                        <input type="text" id="customerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerPhone">Phone number (for delivery & M-Pesa)</label>
+                        <input type="tel" id="customerPhone" placeholder="07XX XXX XXX" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerAddress">Delivery address (optional)</label>
+                        <textarea id="customerAddress" rows="2"></textarea>
+                    </div>
+                    <div class="form-error" id="formError"></div>
+                    <div class="modal-actions">
+                        <button type="submit" class="btn btn-primary" id="submitOrderBtn">Place Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="detailOverlay">
+        <div class="modal detail-modal">
+            <button class="modal-close" onclick="closeProductDetail()">✕ Close</button>
+            <div id="detailBody"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = ''; // same origin — API is served by this same app
+        let PRODUCTS = [];
+        let WHATSAPP_NUMBER = '';
+        const basket = {}; // { slug: qty }
+
+        function toggleMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('active'));
+        });
+
+        function money(n) {
+            return 'KES ' + Number(n).toLocaleString('en-KE');
+        }
+
+        function whatsappLink(text) {
+            const num = WHATSAPP_NUMBER || '';
+            return `https://wa.me/${num}?text=${encodeURIComponent(text)}`;
+        }
+
+        // Placeholder shown in place of a photo — a simple headlight glyph,
+        // consistent with the site's amber signal-light motif.
+        const beamGlyph = `<svg class="beam-glyph" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="4" stroke-width="1.5"></circle>
+            <path stroke-linecap="round" stroke-width="1.5" d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"></path>
+        </svg>`;
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            if (PRODUCTS.length === 0) {
+                grid.innerHTML = '<p style="color:var(--steel);">No products available right now — check back soon.</p>';
+                return;
+            }
+            grid.innerHTML = PRODUCTS.map(p => {
+                const outOfStock = p.stock <= 0;
+                const lowStock = p.stock > 0 && p.stock <= 5;
+                const cover = (p.images && p.images.length > 0) ? p.images[0] : null;
+                const stockClass = outOfStock ? 'out' : (lowStock ? 'low' : '');
+                const stockText = outOfStock ? 'Out of stock' : (lowStock ? `Only ${p.stock} left` : `${p.stock} in stock`);
+                return `
+                <div class="product-card" onclick="openProductDetail('${p.slug}')">
+                    <div class="product-image">
+                        ${p.tag ? `<span class="product-stamp">${p.tag}</span>` : ''}
+                        ${cover ? `<img src="${cover}" alt="${p.name}" loading="lazy">` : beamGlyph}
+                    </div>
+                    <div class="product-info">
+                        <h3>${p.name}</h3>
+                        <p>${p.description}</p>
+                        <div class="price-row">
+                            <span class="price-tag"><span class="ccy">KES</span>${Number(p.price).toLocaleString('en-KE')}</span>
+                            ${p.compare_price ? `<span class="price-compare">${money(p.compare_price)}</span>` : ''}
+                        </div>
+                        <div class="stock-readout ${stockClass}">${stockText}</div>
+                        <div class="qty-row" onclick="event.stopPropagation()">
+                            <button type="button" onclick="stepQty('${p.slug}', -1)" aria-label="Decrease quantity">−</button>
+                            <input type="number" min="1" max="${p.stock}" value="1" id="qty-${p.slug}" ${outOfStock ? 'disabled' : ''}>
+                            <button type="button" onclick="stepQty('${p.slug}', 1)" aria-label="Increase quantity">+</button>
+                        </div>
+                        <button class="add-to-order" ${outOfStock ? 'disabled' : ''} onclick="event.stopPropagation(); addToBasket('${p.slug}')">
+                            ${outOfStock ? 'Out of stock' : 'Add to order'}
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function stepQty(slug, delta) {
+            const input = document.getElementById(`qty-${slug}`);
+            const max = Number(input.max) || 99;
+            let val = Math.max(1, Math.min(max, (Number(input.value) || 1) + delta));
+            input.value = val;
+        }
+
+        function addToBasket(slug) {
+            const input = document.getElementById(`qty-${slug}`);
+            const qty = Math.max(1, Number(input.value) || 1);
+            basket[slug] = (basket[slug] || 0) + qty;
+            updateBasketBar();
+        }
+
+        function updateBasketBar() {
+            const bar = document.getElementById('basketBar');
+            const slugs = Object.keys(basket).filter(s => basket[s] > 0);
+            if (slugs.length === 0) {
+                bar.classList.remove('visible');
+                return;
+            }
+            let count = 0, total = 0;
+            for (const slug of slugs) {
+                const product = PRODUCTS.find(p => p.slug === slug);
+                if (!product) continue;
+                count += basket[slug];
+                total += basket[slug] * product.price;
+            }
+            document.getElementById('basketCount').textContent = count;
+            document.getElementById('basketTotal').textContent = money(total);
+            bar.classList.add('visible');
+        }
+
+        function openOrderModal() {
+            const slugs = Object.keys(basket).filter(s => basket[s] > 0);
+            if (slugs.length === 0) return;
+            const itemsEl = document.getElementById('modalItems');
+            let total = 0;
+            itemsEl.innerHTML = slugs.map(slug => {
+                const product = PRODUCTS.find(p => p.slug === slug);
+                const lineTotal = product.price * basket[slug];
+                total += lineTotal;
+                return `<div class="line"><span>${product.name} × ${basket[slug]}</span><span>${money(lineTotal)}</span></div>`;
+            }).join('');
+            document.getElementById('modalTotal').textContent = money(total);
+            document.getElementById('formError').style.display = 'none';
+            document.getElementById('modalOverlay').classList.add('open');
+        }
+
+        function closeOrderModal() {
+            document.getElementById('modalOverlay').classList.remove('open');
+        }
+
+        // ---- Product detail view ----
+
+        function setDetailHeroImage(slug, url) {
+            document.getElementById(`detail-hero-img-${slug}`).src = url;
+            document.querySelectorAll(`.detail-thumbs img`).forEach(img => {
+                img.classList.toggle('active', img.dataset.url === url);
+            });
+        }
+
+        function openProductDetail(slug) {
+            const p = PRODUCTS.find(pr => pr.slug === slug);
+            if (!p) return;
+            const outOfStock = p.stock <= 0;
+            const lowStock = p.stock > 0 && p.stock <= 5;
+            const images = (p.images && p.images.length > 0) ? p.images : [];
+            const cover = images[0] || null;
+
+            const thumbsHtml = images.length > 1
+                ? `<div class="detail-thumbs">${images.map(url => `
+                    <img src="${url}" data-url="${url}" class="${url === cover ? 'active' : ''}"
+                         onclick="setDetailHeroImage('${slug}', '${url}')">
+                   `).join('')}</div>`
+                : '';
+
+            document.getElementById('detailBody').innerHTML = `
+                <div class="detail-hero">
+                    ${cover ? `<img id="detail-hero-img-${slug}" src="${cover}" alt="${p.name}">` : beamGlyph}
+                </div>
+                ${thumbsHtml}
+                <div class="detail-title-row">
+                    <h3>${p.name}</h3>
+                    <div class="detail-price">${money(p.price)} ${p.compare_price ? `<span class="compare">${money(p.compare_price)}</span>` : ''}</div>
+                </div>
+                <div class="detail-stock ${lowStock ? 'low' : ''}">${outOfStock ? 'Out of stock' : lowStock ? `Only ${p.stock} left` : `${p.stock} in stock`}</div>
+                <p class="detail-description">${p.description}</p>
+                <div class="detail-copy">${p.details || ''}</div>
+                <div class="qty-row">
+                    <button type="button" onclick="stepQty('${p.slug}', -1)" aria-label="Decrease quantity">−</button>
+                    <input type="number" min="1" max="${p.stock}" value="1" id="qty-${p.slug}" ${outOfStock ? 'disabled' : ''}>
+                    <button type="button" onclick="stepQty('${p.slug}', 1)" aria-label="Increase quantity">+</button>
+                </div>
+                <button class="add-to-order" ${outOfStock ? 'disabled' : ''}
+                        onclick="addToBasket('${p.slug}'); closeProductDetail();">
+                    ${outOfStock ? 'Out of stock' : 'Add to order'}
+                </button>
+            `;
+            document.getElementById('detailOverlay').classList.add('open');
+        }
+
+        function closeProductDetail() {
+            document.getElementById('detailOverlay').classList.remove('open');
+        }
+
+        async function loadProducts() {
+            try {
+                const res = await fetch(`${API_BASE}/api/products`);
+                PRODUCTS = await res.json();
+                renderProducts();
+            } catch (err) {
+                document.getElementById('productGrid').innerHTML =
+                    '<p style="color:var(--steel);">Could not load products. Please refresh the page.</p>';
+            }
+        }
+
+        async function loadConfig() {
+            try {
+                const res = await fetch(`${API_BASE}/api/config`);
+                const data = await res.json();
+                WHATSAPP_NUMBER = data.whatsapp_number || '';
+                const genericText = 'Hi Victor Lights, I\'m interested in your motorcycle lights';
+                const link = whatsappLink(genericText);
+                document.getElementById('heroWhatsapp').href = link;
+                document.getElementById('ctaWhatsapp').href = link;
+                if (WHATSAPP_NUMBER) {
+                    const pretty = '+' + WHATSAPP_NUMBER.replace(/(\d{3})(\d{3})(\d{3})(\d+)/, '$1 $2 $3 $4');
+                    document.getElementById('phoneDisplay').innerHTML = `${pretty}<br>Mon-Sat, 8am - 6pm`;
+                }
+            } catch (err) {
+                // Non-fatal: WhatsApp buttons just won't have a prefilled number.
+            }
+        }
+
+        document.getElementById('modalOverlay').addEventListener('click', (e) => {
+            if (e.target.id === 'modalOverlay') closeOrderModal();
+        });
+        document.getElementById('detailOverlay').addEventListener('click', (e) => {
+            if (e.target.id === 'detailOverlay') closeProductDetail();
+        });
+
+        document.getElementById('orderForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitOrderBtn');
+            const errorEl = document.getElementById('formError');
+            errorEl.style.display = 'none';
+            btn.disabled = true;
+            btn.textContent = 'Placing order…';
+
+            const items = Object.keys(basket)
+                .filter(slug => basket[slug] > 0)
+                .map(slug => ({ slug, qty: basket[slug] }));
+
+            const payload = {
+                customer_name: document.getElementById('customerName').value.trim(),
+                phone: document.getElementById('customerPhone').value.trim(),
+                address: document.getElementById('customerAddress').value.trim() || null,
+                items
+            };
+
+            try {
+                const res = await fetch(`${API_BASE}/api/orders`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || data.detail || 'Could not place order');
+
+                WHATSAPP_NUMBER = data.whatsapp_number || WHATSAPP_NUMBER;
+
+                const summary = data.items.map(it => `${it.qty}x ${it.name}`).join(', ');
+                const waText = `Hi Victor Lights, I just placed order ${data.order_number} (${summary}) — total ${money(data.total)}. Confirming payment details.`;
+
+                document.getElementById('modalBody').innerHTML = `
+                    <div class="order-success">
+                        <p>Order placed! Show or send this number to confirm on WhatsApp:</p>
+                        <div class="order-number">${data.order_number}</div>
+                        <p>Total: <strong>${money(data.total)}</strong></p>
+                        <div class="modal-actions">
+                            <a class="btn btn-whatsapp" href="${whatsappLink(waText)}" target="_blank" rel="noopener">Confirm on WhatsApp</a>
+                        </div>
+                        <div class="modal-actions">
+                            <button class="btn btn-primary" onclick="closeOrderModal(); location.reload();">Done</button>
+                        </div>
+                    </div>`;
+
+                for (const slug of Object.keys(basket)) basket[slug] = 0;
+                updateBasketBar();
+            } catch (err) {
+                errorEl.textContent = err.message;
+                errorEl.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Place Order';
+            }
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('animate'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        function observeCards() {
+            document.querySelectorAll('.product-card, .spec-card').forEach(el => observer.observe(el));
+        }
+
+        loadConfig();
+        loadProducts().then(observeCards);
+    </script>
+</body>
+</html>
