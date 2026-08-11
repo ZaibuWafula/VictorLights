@@ -108,18 +108,68 @@ predictably instead of relying on autodetection.
 6. Generate a public domain under **Settings → Networking → Generate Domain**,
    or attach your own.
 
-### Option D — any $4–6/month VPS
-```bash
-git clone <your-repo> && cd victor-lights-fastapi
-python3 -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env   # edit values
-python3 -m app.seed
-pip install gunicorn
-gunicorn app.main:app -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --daemon
-```
-Use `systemd` or `pm2` to keep it running after reboot, and put Nginx or
-Caddy in front for HTTPS.
+### Option D — a Kenya-local VPS (e.g. HOSTAFRICA)
+
+Any self-managed KVM VPS with root access works — this section uses
+[HOSTAFRICA's Linux VPS](https://www.hostafrica.ke/servers/linux-vps-servers/)
+as a concrete example, since it's locally hosted in Kenya (lower latency to
+your actual customers than a US/EU-based platform) and bills in KES. Their
+cheapest tier, **C1 (~KSh 960–969/mo)** — 1 vCPU, 1GB RAM, 20GB NVMe SSD —
+is enough for this app; **C2 (~KSh 1,600/mo, 2GB RAM)** gives more headroom.
+Any similarly-specced Ubuntu/Debian VPS from another provider works the
+same way.
+
+The repo includes ready-to-use `deploy/victor-lights.service` (systemd) and
+`deploy/Caddyfile` (automatic HTTPS) for this path.
+
+1. **Order the VPS**, choosing Ubuntu (22.04 or 24.04) as the OS. You'll get
+   root SSH access and a static IP.
+2. **SSH in and create a non-root deploy user** (running as root day-to-day
+   is avoidable risk):
+   ```bash
+   ssh root@your-server-ip
+   adduser deploy && usermod -aG sudo deploy
+   su - deploy
+   ```
+3. **Install Python and clone the repo**:
+   ```bash
+   sudo apt update && sudo apt install -y python3-venv python3-pip git
+   git clone <your-repo-url> victor-lights-fastapi
+   cd victor-lights-fastapi
+   python3 -m venv venv
+   venv/bin/pip install -r requirements.txt gunicorn
+   cp .env.example .env
+   nano .env   # set ADMIN_KEY, DB_PATH=./data/victorlights.db, WHATSAPP_NUMBER, CORS_ORIGIN
+   venv/bin/python -m app.seed
+   ```
+4. **Install and start the systemd service** (keeps the app running and
+   restarts it after crashes or reboots):
+   ```bash
+   sudo cp deploy/victor-lights.service /etc/systemd/system/
+   sudo systemctl daemon-reload
+   sudo systemctl enable --now victor-lights
+   sudo systemctl status victor-lights   # confirm it's active (running)
+   ```
+5. **Point your domain at the server**: in your domain registrar's DNS
+   settings, add an A record for your domain pointing to the VPS's static
+   IP. (If you register the `.co.ke` domain through the same host, they'll
+   often set this up for you.)
+6. **Install Caddy for automatic HTTPS** — see the instructions at the top
+   of `deploy/Caddyfile`, then:
+   ```bash
+   sudo cp deploy/Caddyfile /etc/caddy/Caddyfile
+   # edit the domain in that file first
+   sudo systemctl reload caddy
+   ```
+   Caddy handles certificate issuance and renewal automatically; there's no
+   manual certbot step.
+
+Unlike Fly/Render/Railway, a VPS's disk is inherently persistent — there's
+no separate "volume" concept to configure, and the weekly automatic backups
+most VPS providers include cover the SQLite file along with everything
+else. To deploy an update later: `git pull`, `venv/bin/pip install -r
+requirements.txt` if dependencies changed, then `sudo systemctl restart
+victor-lights`.
 
 ## Managing the shop day-to-day
 

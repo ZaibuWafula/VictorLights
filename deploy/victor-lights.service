@@ -1,0 +1,31 @@
+# Systemd unit that keeps the app running and restarts it on crash or reboot.
+#
+# Install:
+#   sudo cp deploy/victor-lights.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now victor-lights
+#
+# Check status / logs:
+#   sudo systemctl status victor-lights
+#   sudo journalctl -u victor-lights -f
+#
+# Adjust User, WorkingDirectory, and the venv path below to match your server.
+
+[Unit]
+Description=Victor Lights FastAPI app
+After=network.target
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=/home/deploy/victor-lights-fastapi
+EnvironmentFile=/home/deploy/victor-lights-fastapi/.env
+ExecStart=/home/deploy/victor-lights-fastapi/venv/bin/gunicorn app.main:app \
+    -k uvicorn.workers.UvicornWorker \
+    --bind 127.0.0.1:8000 \
+    --workers 2
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
