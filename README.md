@@ -76,7 +76,39 @@ Add a persistent disk (a few dollars/month) mounted at `/data`, set
 `DB_PATH=/data/victorlights.db` and the other env vars under Environment.
 Start command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`.
 
-### Option C — any $4–6/month VPS
+### Option C — Railway.app
+Railway is billed usage-based with a $5/month Hobby minimum (no permanent
+free tier as of 2026 — a one-time trial credit, then Hobby or Pro). The repo
+already includes a `Dockerfile` and `railway.json` so Railway builds it
+predictably instead of relying on autodetection.
+
+1. Push this project to a GitHub repo.
+2. In Railway: **New Project → Deploy from GitHub repo**, pick the repo.
+   It detects `railway.json` and builds the `Dockerfile` directly.
+3. **Add a volume**: right-click the canvas (or ⌘K) → New Volume. Mount it
+   at `/data`. Without this, the SQLite file lives in the container's
+   ephemeral filesystem and resets on every redeploy.
+4. Under the service's **Variables** tab, set:
+   ```
+   ADMIN_KEY=your-real-key
+   DB_PATH=/data/victorlights.db
+   WHATSAPP_NUMBER=254712345678
+   CORS_ORIGIN=*
+   ```
+   Don't set `PORT` yourself — Railway injects it, and the Dockerfile's
+   `CMD` already reads `$PORT`.
+5. Deploy. Once it's live, seed the database **once** via the Railway CLI
+   (`npm i -g @railway/cli`, then `railway login` and `railway link`):
+   ```bash
+   railway run python -m app.seed
+   ```
+   Don't wire seeding into every container start — `seed.py` upserts by
+   slug, so a repeat run is safe, but it would silently overwrite any price
+   or stock changes you'd made through the admin API since the last deploy.
+6. Generate a public domain under **Settings → Networking → Generate Domain**,
+   or attach your own.
+
+### Option D — any $4–6/month VPS
 ```bash
 git clone <your-repo> && cd victor-lights-fastapi
 python3 -m venv venv && source venv/bin/activate
