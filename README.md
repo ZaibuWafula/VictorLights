@@ -171,6 +171,73 @@ else. To deploy an update later: `git pull`, `venv/bin/pip install -r
 requirements.txt` if dependencies changed, then `sudo systemctl restart
 victor-lights`.
 
+### Option E — shared hosting with a "Python App" panel feature (e.g. HOSTAFRICA Web Hosting)
+
+Some shared hosting plans (not a VPS — a regular cPanel/DirectAdmin web
+hosting account) include a "Setup Python App" feature under Extra Features.
+This is built on **Phusion Passenger**, which only speaks **WSGI** —
+FastAPI is **ASGI**, so it needs a small adapter to run here. The repo
+includes `passenger_wsgi.py`, which does exactly that with the `a2wsgi`
+package; nothing else in the project changes for this path. This has been
+tested end to end (every route — static homepage, JSON API routes, path
+params, POST bodies, admin auth — confirmed working through a pure WSGI
+server standing in for Passenger).
+
+This path is more constrained than a VPS: no root/SSH access by default (it
+says "on request" on HOSTAFRICA's shared plans), no systemd, and the panel
+— not you — manages the web server and process. In exchange, it's usually
+cheaper and there's no server administration at all.
+
+1. **Log into DirectAdmin** (or cPanel, if that's what the plan uses — the
+   idea is the same, the exact screens differ).
+2. **Get your code onto the server.** The plan advertises Git deployment —
+   look for a "Git" or "Git Version Control" tool in the panel, point it at
+   your repo, and deploy to a folder of your choice (e.g.
+   `~/apps/victor-lights-fastapi`). If there's no Git tool available to you,
+   zip the project, upload it via File Manager or SFTP, and extract it
+   there instead.
+3. **Extra Features → Setup Python App → Create Application**:
+   - **App root**: the folder you deployed to (e.g.
+     `apps/victor-lights-fastapi`, relative to your home directory)
+   - **App URL**: your domain (or a subpath, if you want it under an
+     existing site)
+   - **Python version**: 3.11 or newer
+   - Click **Create**. The panel builds a virtualenv and writes a stub
+     `passenger_wsgi.py` — you'll overwrite that with the one already in
+     this repo in the next step.
+4. **Make sure the repo's `passenger_wsgi.py` is the one in place** (not
+   the panel's auto-generated stub) — if the panel's Git/upload step didn't
+   already put it there, copy it into the app root via File Manager.
+5. **Install dependencies.** The Python App screen has a requirements.txt
+   installer field/button — point it at this project's `requirements.txt`
+   and run it. This installs everything, `a2wsgi` included, into the
+   virtualenv the panel created.
+6. **Set environment variables.** DirectAdmin's Python App screen doesn't
+   always expose an env-var UI the way Railway/Render do. The simplest fix:
+   create a real `.env` file in the app root (copy `.env.example`, fill in
+   `ADMIN_KEY`, `WHATSAPP_NUMBER`, etc.) — `passenger_wsgi.py` imports
+   `app.main`, which already calls `load_dotenv()` on import, so it's
+   picked up automatically. Set `DB_PATH=./data/victorlights.db` (a
+   relative path is fine and keeps the database inside the app root, which
+   is what gets backed up by the plan's automatic daily backups).
+7. **Seed the database once.** If the panel offers SSH ("on request" per
+   HOSTAFRICA's plan — ask support to enable it), run:
+   ```bash
+   source ~/apps/victor-lights-fastapi/virtualenv/*/bin/activate  # path shown on the Python App screen
+   cd ~/apps/victor-lights-fastapi
+   python -m app.seed
+   ```
+   Without SSH, ask support to run this one command for you, or temporarily
+   add a throwaway admin-only route that calls `seed()` and hit it once —
+   more hassle, which is one more reason SSH is worth requesting.
+8. **Restart the app** after any code or dependency change — Passenger
+   apps restart by creating/touching a file at `tmp/restart.txt` in the app
+   root (the Python App screen usually has a "Restart" button that does
+   this for you).
+9. **SSL**: the plan includes free Let's Encrypt SSL, normally auto-issued
+   once your domain's DNS points at the server — no separate Caddy/certbot
+   step needed here, unlike the VPS path.
+
 ## Managing the shop day-to-day
 
 No admin UI beyond `/api/docs` (which does let you try requests from the
