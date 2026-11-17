@@ -448,6 +448,7 @@
                     <li><a href="#main">Home</a></li>
                     <li><a href="#products">Catalog</a></li>
                     <li><a href="#why">Why Us</a></li>
+                    <li><a href="/guides/">Guides</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
                 <button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
@@ -659,10 +660,10 @@
                 <div class="product-card" onclick="openProductDetail('${p.slug}')">
                     <div class="product-image">
                         ${p.tag ? `<span class="product-stamp">${p.tag}</span>` : ''}
-                        ${cover ? `<img src="${cover}" alt="${p.name}" loading="lazy">` : beamGlyph}
+                        ${cover ? `<img src="${cover}" alt="${p.name} motorcycle auxiliary light Kenya" loading="lazy" width="800" height="600">` : beamGlyph}
                     </div>
                     <div class="product-info">
-                        <h3>${p.name}</h3>
+                        <h3><a href="/products/${p.slug}" onclick="event.stopPropagation()" style="color:inherit;text-decoration:none">${p.name}</a></h3>
                         <p>${p.description}</p>
                         <div class="price-row">
                             <span class="price-tag"><span class="ccy">KES</span>${Number(p.price).toLocaleString('en-KE')}</span>
@@ -771,6 +772,7 @@
                 <div class="detail-stock ${lowStock ? 'low' : ''}">${outOfStock ? 'Out of stock' : lowStock ? `Only ${p.stock} left` : `${p.stock} in stock`}</div>
                 <p class="detail-description">${p.description}</p>
                 <div class="detail-copy">${p.details || ''}</div>
+                <p><a href="/products/${p.slug}">Open full product page</a></p>
                 <div class="qty-row">
                     <button type="button" onclick="stepQty('${p.slug}', -1)" aria-label="Decrease quantity">−</button>
                     <input type="number" min="1" max="${p.stock}" value="1" id="qty-${p.slug}" ${outOfStock ? 'disabled' : ''}>

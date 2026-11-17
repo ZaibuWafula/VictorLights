@@ -12,6 +12,7 @@ from fastapi.staticfiles import StaticFiles
 from app.db import init_db
 from app.ratelimit import RateLimitMiddleware
 from app.routers import products, orders
+from app import seo
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 PUBLIC_DIR = BASE_DIR / "public"
@@ -35,6 +36,8 @@ app.add_middleware(RateLimitMiddleware, window_seconds=60 * 60, max_requests=20,
 
 app.include_router(products.router, prefix="/api/products", tags=["products"])
 app.include_router(orders.router, prefix="/api/orders", tags=["orders"])
+# SEO pages (/, /products/{slug}, /guides, sitemap, robots) — must come before the static mount.
+app.include_router(seo.router)
 
 
 @app.get("/api/health")

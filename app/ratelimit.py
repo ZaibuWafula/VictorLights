@@ -22,7 +22,10 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         if not request.url.path.startswith(self.path_prefix):
             return await call_next(request)
 
-        client_ip = request.client.host if request.client else "unknown"
+        # Behind nginx/Passenger every request arrives from the proxy, so use the
+        # forwarded client address when present (otherwise all visitors share one bucket).
+        fwd = request.headers.get("x-forwarded-for", "")
+        client_ip = fwd.split(",")[0].strip() if fwd else (request.client.host if request.client else "unknown")
         now = time.time()
         bucket = self.hits[client_ip]
 
