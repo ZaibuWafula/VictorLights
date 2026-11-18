@@ -264,6 +264,7 @@ def shell(title, description, canonical, body, schemas=(), og_image=None) -> str
 <title>{escape(title)}</title>
 <meta name="description" content="{escape(description)}">
 <link rel="canonical" href="{escape(canonical)}">
+<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta property="og:type" content="website"><meta property="og:site_name" content="{C.SITE_NAME}">
 <meta property="og:locale" content="en_KE"><meta property="og:title" content="{escape(title)}">
