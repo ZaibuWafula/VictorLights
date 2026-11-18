@@ -63,6 +63,7 @@ class ProductCreate(BaseModel):
 
 
 class ProductUpdate(BaseModel):
+    slug: Optional[str] = None
     name: Optional[str] = None
     description: Optional[str] = None
     details: Optional[str] = None
@@ -72,6 +73,12 @@ class ProductUpdate(BaseModel):
     tag: Optional[str] = None
     stock: Optional[int] = None
     active: Optional[int] = None
+
+
+def clean_slug(slug: str) -> str:
+    """Lowercase, hyphenated slugs only — URLs are case-sensitive for SEO."""
+    import re
+    return re.sub(r"[^a-z0-9]+", "-", slug.lower()).strip("-")
 
 
 @router.get("/admin/all", dependencies=[Depends(require_admin)])
@@ -91,7 +98,7 @@ def create_product(payload: ProductCreate):
                     (slug, name, description, details, images_json, price, compare_price, tag, stock)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
-                (payload.slug, payload.name, payload.description, payload.details,
+                (clean_slug(payload.slug), payload.name, payload.description, payload.details,
                  json.dumps(payload.images), payload.price, payload.compare_price,
                  payload.tag, payload.stock),
             )
@@ -105,6 +112,8 @@ def create_product(payload: ProductCreate):
 @router.patch("/admin/{product_id}", dependencies=[Depends(require_admin)])
 def update_product(product_id: int, payload: ProductUpdate):
     fields = payload.model_dump(exclude_unset=True)
+    if fields.get("slug"):
+        fields["slug"] = clean_slug(fields["slug"])
     if not fields:
         raise HTTPException(status_code=400, detail="No valid fields to update")
     # images comes in as a list from the client but is stored as a JSON string column

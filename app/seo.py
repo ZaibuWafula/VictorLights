@@ -194,19 +194,64 @@ def home():
 # ---------------------------------------------------------------- shared page shell
 
 PAGE_CSS = """
-:root{--ink:#12141a;--amber:#ffb627;--amber-dim:#a56f0c;--paper:#eef0f2;--steel:#5b626c}
-*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--paper);color:var(--ink);line-height:1.7}
-header{background:var(--ink);padding:1rem 1.25rem}header a{color:#fff;text-decoration:none;font-weight:700;letter-spacing:.08em}header span{color:var(--amber)}
-nav.crumbs{max-width:900px;margin:1rem auto 0;padding:0 1.25rem;font-size:.9rem;color:var(--steel)}nav.crumbs a{color:var(--steel)}
-main{max-width:900px;margin:0 auto;padding:1.25rem}h1{line-height:1.2;margin:.5rem 0 1rem}h2{margin-top:2rem}
-a{color:var(--amber-dim)}img{max-width:100%;height:auto;border-radius:12px}
-.price{font-size:1.8rem;font-weight:700}.compare{color:var(--steel);text-decoration:line-through;font-size:1rem;margin-left:.5rem}
-.btn{display:inline-block;background:#25d366;color:#04230f;padding:.8rem 1.4rem;border-radius:10px;font-weight:700;text-decoration:none;margin:.5rem .5rem .5rem 0}
-.btn.alt{background:var(--amber);color:var(--ink)}
-.thumbs{display:flex;gap:.5rem;flex-wrap:wrap;margin:.5rem 0}.thumbs img{width:110px}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;list-style:none;padding:0}
-.cards li{background:#fff;border-radius:12px;padding:1rem}
-footer{text-align:center;color:var(--steel);padding:2rem 1rem;font-size:.9rem}
+:root{--ink:#12141a;--ink-soft:#1b1e26;--panel:#21242d;--amber:#ffb627;--amber-dim:#a56f0c;--paper:#eef0f2;--steel:#5b626c;--line:rgba(18,20,26,.1);--success:#1f9d5b;--danger:#e4572e;
+--display:'Space Grotesk',system-ui,-apple-system,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--paper);color:var(--ink);line-height:1.65}
+h1,h2,h3{font-family:var(--display);line-height:1.15;letter-spacing:-.01em}
+a{color:var(--amber-dim)}img{max-width:100%;height:auto;display:block}
+.wrap{max-width:1100px;margin:0 auto;padding:0 1.25rem}
+header.top{background:var(--ink);border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:0;z-index:20}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+header.top .logo{font-family:var(--display);color:#fff;text-decoration:none;font-weight:700;letter-spacing:.08em}
+header.top .logo span{color:var(--amber)}
+header.top nav a{color:#c9ced6;text-decoration:none;margin-left:1.25rem;font-size:.95rem}header.top nav a:hover{color:var(--amber)}
+.crumbs{padding:1rem 0 .25rem;font-size:.88rem;color:var(--steel)}.crumbs a{color:var(--steel);text-decoration:none}.crumbs a:hover{text-decoration:underline}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.9rem 1.5rem;border-radius:12px;font-weight:700;text-decoration:none;border:0;cursor:pointer;font-size:1rem;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.18)}
+.btn.wa{background:#25d366;color:#04230f}.btn.amber{background:var(--amber);color:var(--ink)}.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+/* product layout */
+.product{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:2.5rem;padding:1rem 0 2.5rem;align-items:start}
+.gallery{position:sticky;top:76px}
+.g-main{position:relative;background:#fff;border-radius:18px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3;cursor:zoom-in}
+.g-main img{width:100%;height:100%;object-fit:contain;transition:opacity .2s}
+.g-arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:rgba(18,20,26,.75);color:#fff;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.g-arrow:hover{background:var(--amber);color:var(--ink)}.g-prev{left:.75rem}.g-next{right:.75rem}
+.g-count{position:absolute;right:.75rem;bottom:.75rem;background:rgba(18,20,26,.75);color:#fff;font-size:.8rem;padding:.2rem .6rem;border-radius:999px}
+.g-badge{position:absolute;left:.75rem;top:.75rem;background:var(--amber);color:var(--ink);font-weight:700;font-size:.78rem;padding:.3rem .7rem;border-radius:999px;letter-spacing:.04em;text-transform:uppercase}
+.g-thumbs{display:flex;gap:.6rem;margin-top:.75rem;overflow-x:auto;padding-bottom:.25rem}
+.g-thumb{flex:0 0 84px;height:64px;border-radius:10px;border:2px solid transparent;padding:0;background:#fff;cursor:pointer;overflow:hidden;opacity:.7}
+.g-thumb img{width:100%;height:100%;object-fit:cover}.g-thumb.on{border-color:var(--amber);opacity:1}.g-thumb:hover{opacity:1}
+.info h1{font-size:clamp(1.6rem,3.5vw,2.3rem);margin:.2rem 0 .6rem}
+.eyebrow{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--amber-dim);font-weight:700}
+.pricebox{display:flex;align-items:baseline;flex-wrap:wrap;gap:.75rem;margin:.5rem 0}
+.price{font-family:var(--display);font-size:2.2rem;font-weight:700}.price small{font-size:1rem;color:var(--steel);margin-right:.25rem}
+.compare{color:var(--steel);text-decoration:line-through}.save{background:#fdeede;color:#a14a00;font-weight:700;font-size:.8rem;padding:.2rem .6rem;border-radius:999px}
+.stock{display:inline-flex;align-items:center;gap:.4rem;font-size:.9rem;font-weight:600}.stock::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--success)}
+.stock.out::before{background:var(--danger)}.stock.low::before{background:var(--amber)}
+.lead{font-size:1.05rem;color:#3a3f48;margin:1rem 0}
+.cta{display:flex;flex-wrap:wrap;gap:.75rem;margin:1.25rem 0}
+.trust{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem;margin:1.25rem 0;padding:0;list-style:none}
+.trust li{background:#fff;border:1px solid var(--line);border-radius:12px;padding:.7rem .9rem;font-size:.9rem;display:flex;gap:.6rem;align-items:center}
+.trust b{display:block;font-size:.95rem}.trust i{font-style:normal;font-size:1.3rem}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:1.5rem;margin-bottom:1.25rem}
+.card h2{margin:0 0 .75rem;font-size:1.3rem}
+.dark{background:var(--ink);color:#e8eaee;border-radius:18px;padding:1.75rem;margin:1rem 0 2rem}.dark h2{color:#fff;margin-top:0}.dark a{color:var(--amber)}
+.related{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem;list-style:none;padding:0;margin:0}
+.related a{display:block;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink);transition:transform .15s,box-shadow .15s}
+.related a:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
+.related img{width:100%;aspect-ratio:4/3;object-fit:cover}.related div{padding:.8rem 1rem}.related strong{display:block}.related span{color:var(--steel);font-size:.92rem}
+/* text pages */
+main.article{max-width:780px;margin:0 auto;padding:1rem 1.25rem 3rem}main.article h1{font-size:clamp(1.7rem,4vw,2.5rem)}main.article h2{margin-top:2rem}
+.guide-list{list-style:none;padding:0;display:grid;gap:1rem}.guide-list li{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.25rem}
+footer.foot{background:var(--ink);color:#9aa1ab;text-align:center;padding:2rem 1rem;font-size:.9rem;margin-top:2rem}footer.foot a{color:var(--amber)}
+.lightbox{position:fixed;inset:0;background:rgba(10,11,14,.94);z-index:50;display:none;align-items:center;justify-content:center;padding:1rem}
+.lightbox.open{display:flex}.lightbox img{max-height:92vh;max-width:96vw;object-fit:contain;border-radius:8px}
+.lightbox button{position:absolute;top:1rem;right:1rem;background:#fff;border:0;border-radius:999px;width:42px;height:42px;font-size:1.2rem;cursor:pointer}
+.sticky-cta{display:none}
+@media(max-width:820px){.product{grid-template-columns:1fr;gap:1.25rem}.gallery{position:static}
+.sticky-cta{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:15;background:var(--ink);padding:.7rem 1rem;gap:.75rem;align-items:center;justify-content:space-between}
+.sticky-cta .price{color:#fff;font-size:1.3rem}.sticky-cta .btn{padding:.7rem 1.2rem}body{padding-bottom:70px}header.top nav a:not(:last-child){display:none}}
 """
 
 
@@ -225,10 +270,12 @@ def shell(title, description, canonical, body, schemas=(), og_image=None) -> str
 <meta property="og:description" content="{escape(description)}"><meta property="og:url" content="{escape(canonical)}">{og}
 <meta name="twitter:card" content="summary_large_image">
 {''.join(jsonld(s) for s in schemas)}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>{PAGE_CSS}</style></head><body>
-<header><a href="/">VICTOR<span>·LIGHTS</span></a></header>
+<header class="top"><div class="wrap"><a class="logo" href="/">VICTOR<span>·LIGHTS</span></a><nav><a href="/#products">Shop</a><a href="/guides/">Guides</a><a href="/#contact">Contact</a></nav></div></header>
 {body}
-<footer>© 2026 {C.SITE_NAME} · Motorcycle auxiliary lights, Nairobi, Kenya · <a href="/">Home</a> · <a href="/guides/">Guides</a></footer>
+<footer class="foot">© 2026 {C.SITE_NAME} · Motorcycle auxiliary lights, Nairobi, Kenya · <a href="/">Home</a> · <a href="/guides/">Guides</a></footer>
 </body></html>"""
 
 
@@ -241,41 +288,106 @@ def breadcrumb(items) -> dict:
 
 @router.get("/products/{slug}", response_class=HTMLResponse, include_in_schema=False)
 def product_page(slug: str):
-    p = next((x for x in get_products() if x["slug"] == slug), None)
+    allp = get_products()
+    p = next((x for x in allp if x["slug"] == slug), None)
     if not p:
         raise HTTPException(status_code=404, detail="Not found")
     base = site_url()
     url = f"{base}/products/{slug}"
     name = escape(p["name"])
     imgs = p["images"]
-    gallery = ""
+    price = int(p["price"])
+    cmp_ = int(p["compare_price"]) if p.get("compare_price") else 0
+    save = round((cmp_ - price) * 100 / cmp_) if cmp_ > price else 0
+
     if imgs:
-        gallery = (f'<img src="{escape(imgs[0])}" alt="{name} – motorcycle auxiliary light in Kenya" width="800" height="600">'
-                   + ('<div class="thumbs">' + "".join(
-                       f'<img src="{escape(i)}" alt="{name} view {n + 2}" loading="lazy" width="110" height="82">'
-                       for n, i in enumerate(imgs[1:])) + "</div>" if len(imgs) > 1 else ""))
-    compare = f'<span class="compare">KES {int(p["compare_price"]):,}</span>' if p.get("compare_price") else ""
-    stock = "In stock" if p["stock"] > 0 else "Out of stock"
-    others = "".join(f'<li><a href="/products/{escape(o["slug"])}">{escape(o["name"])}</a><br>KES {int(o["price"]):,}</li>'
-                     for o in get_products() if o["slug"] != slug)
+        thumbs = "".join(
+            f'<button type="button" class="g-thumb{" on" if n == 0 else ""}" data-src="{escape(i)}" '
+            f'data-alt="{name} - view {n + 1}" aria-label="Show image {n + 1}">'
+            f'<img src="{escape(i)}" alt="{name} thumbnail {n + 1}" loading="lazy" width="84" height="64"></button>'
+            for n, i in enumerate(imgs))
+        arrows = ('<button type="button" class="g-arrow g-prev" aria-label="Previous image">&#8249;</button>'
+                  '<button type="button" class="g-arrow g-next" aria-label="Next image">&#8250;</button>'
+                  f'<span class="g-count"><span id="gIdx">1</span> / {len(imgs)}</span>') if len(imgs) > 1 else ""
+        badge = f'<span class="g-badge">{escape(p["tag"])}</span>' if p.get("tag") else ""
+        gallery = (f'<div class="gallery" id="gallery"><div class="g-main" id="gMain">{badge}'
+                   f'<img id="gImg" src="{escape(imgs[0])}" alt="{name} - motorcycle auxiliary light in Kenya" width="800" height="600">{arrows}</div>'
+                   + (f'<div class="g-thumbs">{thumbs}</div>' if len(imgs) > 1 else "") + '</div>')
+    else:
+        gallery = '<div class="gallery"><div class="g-main"></div></div>'
+
+    if p["stock"] <= 0:
+        stock = '<span class="stock out">Out of stock</span>'
+    elif p["stock"] <= 5:
+        stock = f'<span class="stock low">Only {p["stock"]} left</span>'
+    else:
+        stock = '<span class="stock">In stock</span>'
+
+    wa = escape(wa_link(f"Hi Victor Lights, I want to order the {p['name']} (KES {price:,})"))
+    others = "".join(
+        f'<li><a href="/products/{escape(o["slug"])}">'
+        + (f'<img src="{escape(o["images"][0])}" alt="{escape(o["name"])}" loading="lazy" width="400" height="300">' if o["images"] else "")
+        + f'<div><strong>{escape(o["name"])}</strong><span>KES {int(o["price"]):,}</span></div></a></li>'
+        for o in allp if o["slug"] != slug)
+    details = "".join(f"<p>{escape(x)}</p>" for x in (p.get("details") or "").split("\n") if x.strip())
+
     body = f"""
-<nav class="crumbs"><a href="/">Home</a> › <a href="/#products">Motorcycle lights</a> › {name}</nav>
-<main>
-<h1>{name} – Motorcycle Auxiliary Light in Kenya</h1>
-{gallery}
-<p class="price">KES {int(p["price"]):,}{compare}</p>
-<p><strong>{stock}</strong> · 12-month warranty · M-Pesa, bank transfer &amp; cash on delivery · Nationwide delivery from Nairobi</p>
-<p>{escape(p["description"])}</p>
-<h2>Details</h2>
-<p>{escape(p.get("details") or "")}</p>
-<p><a class="btn" href="{escape(wa_link('Hi Victor Lights, I want to order the ' + p['name'] + ' (KES ' + format(int(p['price']), ',') + ')'))}" rel="noopener">Order on WhatsApp</a>
-<a class="btn alt" href="/#products">Add to basket on the shop page</a></p>
-<h2>More motorcycle lights</h2><ul class="cards">{others}</ul>
-<p>Need help choosing? Read <a href="/guides/driving-vs-fog-vs-drl-motorcycle-lights">driving vs fog vs DRL lights</a>
-or see <a href="/guides/install-motorcycle-auxiliary-lights">how to install auxiliary lights</a>.</p>
-</main>"""
-    title = f"{p['name']} – Motorcycle Auxiliary Lights Kenya | KES {int(p['price']):,} | Victor Lights"
-    desc = trim(f"Buy the {p['name']} in Kenya for KES {int(p['price']):,}. {p['description']}")
+<div class="wrap">
+<nav class="crumbs"><a href="/">Home</a> &rsaquo; <a href="/#products">Motorcycle lights</a> &rsaquo; {name}</nav>
+<section class="product">
+  {gallery}
+  <div class="info">
+    <span class="eyebrow">Motorcycle auxiliary light</span>
+    <h1>{name}</h1>
+    <div class="pricebox"><span class="price"><small>KES</small>{price:,}</span>
+      {f'<span class="compare">KES {cmp_:,}</span><span class="save">Save {save}%</span>' if save else ''}</div>
+    {stock}
+    <p class="lead">{escape(p["description"])}</p>
+    <div class="cta"><a class="btn wa" href="{wa}" rel="noopener">Order on WhatsApp</a>
+      <a class="btn ghost" href="/#products">Back to catalogue</a></div>
+    <ul class="trust">
+      <li><i>&#128737;</i><span><b>Warranty</b>12-month replacement</span></li>
+      <li><i>&#128666;</i><span><b>Delivery</b>Nairobi &amp; countrywide</span></li>
+      <li><i>&#128179;</i><span><b>Pay with</b>M-Pesa, bank, COD</span></li>
+      <li><i>&#128167;</i><span><b>Built for rain</b>Waterproof housing</span></li>
+    </ul>
+  </div>
+</section>
+<div class="card"><h2>About the {name}</h2>{details or "<p>" + escape(p["description"]) + "</p>"}</div>
+<div class="dark"><h2>Not sure it fits your bike?</h2>
+<p>Message us your motorcycle model on WhatsApp and we will confirm fitment and wiring. Or read our
+<a href="/guides/install-motorcycle-auxiliary-lights">installation guide</a> and
+<a href="/guides/driving-vs-fog-vs-drl-motorcycle-lights">driving vs fog vs DRL comparison</a>.</p>
+<a class="btn wa" href="{wa}" rel="noopener">Ask on WhatsApp</a></div>
+{f'<h2>More motorcycle lights</h2><ul class="related">{others}</ul>' if others else ''}
+</div>
+<div class="sticky-cta"><span class="price">KES {price:,}</span><a class="btn wa" href="{wa}" rel="noopener">Order on WhatsApp</a></div>
+<div class="lightbox" id="lb"><button type="button" aria-label="Close">&#10005;</button><img alt=""></div>
+<script>
+(function(){{
+ var img=document.getElementById('gImg'); if(!img) return;
+ var th=[].slice.call(document.querySelectorAll('.g-thumb')), n=th.length, i=0, idx=document.getElementById('gIdx');
+ function go(k){{ if(!n) return; i=(k+n)%n; img.style.opacity=.3;
+   img.src=th[i].dataset.src; img.alt=th[i].dataset.alt; img.onload=function(){{img.style.opacity=1}};
+   th.forEach(function(t,j){{t.classList.toggle('on',j===i)}}); if(idx) idx.textContent=i+1;
+   th[i].scrollIntoView({{block:'nearest',inline:'center',behavior:'smooth'}}); }}
+ th.forEach(function(t,j){{t.addEventListener('click',function(){{go(j)}})}});
+ var pv=document.querySelector('.g-prev'), nx=document.querySelector('.g-next');
+ if(pv) pv.addEventListener('click',function(e){{e.stopPropagation();go(i-1)}});
+ if(nx) nx.addEventListener('click',function(e){{e.stopPropagation();go(i+1)}});
+ var lb=document.getElementById('lb'), lbi=lb.querySelector('img');
+ document.getElementById('gMain').addEventListener('click',function(){{lbi.src=img.src;lb.classList.add('open')}});
+ lb.addEventListener('click',function(){{lb.classList.remove('open')}});
+ document.addEventListener('keydown',function(e){{
+   if(e.key==='ArrowLeft')go(i-1); else if(e.key==='ArrowRight')go(i+1); else if(e.key==='Escape')lb.classList.remove('open');}});
+ var x0=null, m=document.getElementById('gMain');
+ m.addEventListener('touchstart',function(e){{x0=e.touches[0].clientX}},{{passive:true}});
+ m.addEventListener('touchend',function(e){{ if(x0===null)return; var dx=e.changedTouches[0].clientX-x0;
+   if(Math.abs(dx)>40) go(dx<0?i+1:i-1); x0=null; }});
+}})();
+</script>"""
+    title = f"{p['name']} – Motorcycle Auxiliary Lights Kenya | KES {price:,} | Victor Lights"
+    desc = trim(f"Buy the {p['name']} in Kenya for KES {price:,}. {p['description']}")
     return HTMLResponse(shell(
         title, desc, url, body,
         schemas=[business_schema(), product_schema(p),
@@ -291,7 +403,7 @@ def guides_index():
     base = site_url()
     items = "".join(f'<li><a href="/guides/{k}"><strong>{escape(v["h1"])}</strong></a><br>{escape(v["description"])}</li>'
                     for k, v in C.GUIDES.items())
-    body = f'<main><h1>Motorcycle light guides for Kenyan riders</h1><ul class="cards">{items}</ul></main>'
+    body = f'<main class="article"><h1>Motorcycle light guides for Kenyan riders</h1><ul class="guide-list">{items}</ul></main>'
     return HTMLResponse(shell("Motorcycle Light Guides for Kenya | Victor Lights",
                               "Buying, installation and safety guides for motorcycle auxiliary lights in Kenya.",
                               base + "/guides/", body,
@@ -305,9 +417,9 @@ def guide_page(slug: str):
         raise HTTPException(status_code=404, detail="Not found")
     base = site_url()
     url = f"{base}/guides/{slug}"
-    body = (f'<nav class="crumbs"><a href="/">Home</a> › <a href="/guides/">Guides</a></nav>'
-            f'<main><h1>{escape(g["h1"])}</h1>{g["body"]}'
-            f'<p><a class="btn alt" href="/#products">See motorcycle lights</a></p></main>')
+    body = (f'<div class="wrap"><nav class="crumbs"><a href="/">Home</a> &rsaquo; <a href="/guides/">Guides</a></nav></div>'
+            f'<main class="article"><h1>{escape(g["h1"])}</h1>{g["body"]}'
+            f'<p><a class="btn amber" href="/#products">See motorcycle lights</a></p></main>')
     article = {"@context": "https://schema.org", "@type": "Article", "headline": g["h1"],
                "description": g["description"], "mainEntityOfPage": url,
                "author": {"@type": "Organization", "name": C.SITE_NAME},
